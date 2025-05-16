@@ -134,10 +134,14 @@ def visualizar_vendas_html():
     try:
         conn = get_conexao()
         cur = conn.cursor()
-        cur.execute("SELECT id, data_hora, total, forma_pagamento, usuario_id FROM vendas ORDER BY data_hora DESC")
+        cur.execute("""
+            SELECT id, data_hora, total, forma_pagamento, usuario_id
+            FROM vendas ORDER BY data_hora DESC
+        """)
         vendas = cur.fetchall()
         cur.close()
         conn.close()
+
         return render_template("vendas.html", vendas=vendas, now=datetime.utcnow)
     except Exception as e:
         return f"<h3>Erro ao carregar vendas: {e}</h3>", 500
