@@ -20,8 +20,8 @@
     {% for v in vendas %}
     <tr>
         <td>{{ v[0] }}</td>
-        <td>{{ v[1].strftime('%d/%m/%Y %H:%M:%S') }}</td>
-        <td>R$ {{ "%.2f"|format(v[2]) }}</td>
+        <td>{{ v[1] }}</td>
+        <td>{{ v[2] }}</td>
         <td>{{ v[3] }}</td>
         <td>{{ v[4] }}</td>
     </tr>
