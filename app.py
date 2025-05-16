@@ -93,8 +93,8 @@ def limpar_valor(valor):
         return str(valor)  # força conversão bruta
 
 
-@app.route('/vendas', methods=['GET'])
-def listar_vendas():
+@app.route('/api/vendas', methods=['GET'])
+def listar_vendas_json():
     try:
         conn = get_conexao()
         cur = conn.cursor()
