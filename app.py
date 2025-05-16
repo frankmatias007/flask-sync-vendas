@@ -103,26 +103,16 @@ def listar_vendas_json():
             FROM vendas ORDER BY data_hora DESC
         """)
         vendas = cur.fetchall()
+        cur.close()
+        conn.close()
 
         colunas = ['id', 'data_hora', 'total', 'forma_pagamento', 'usuario_id']
         vendas_json = []
 
         for venda in vendas:
-            try:
-                registro = {}
-                for i, campo in enumerate(venda):
-                    valor_limpo = limpar_valor(campo)
-                    if valor_limpo is None:
-                        raise ValueError(f"Campo inválido: {campo}")
-                    registro[colunas[i]] = valor_limpo
+            registro = {colunas[i]: str(venda[i]) for i in range(len(colunas))}
+            vendas_json.append(registro)
 
-                vendas_json.append(registro)
-            except Exception as e:
-                print(f"⚠️ Venda ignorada por erro de campo: {e}")
-                continue
-
-        cur.close()
-        conn.close()
         return jsonify(vendas_json)
 
     except Exception as e:
