@@ -5,6 +5,7 @@ import psycopg2
 import unicodedata
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify
+from flask import render_template
 
 load_dotenv()
 
@@ -126,6 +127,20 @@ def listar_vendas():
 
     except Exception as e:
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
+
+
+@app.route('/vendas')
+def visualizar_vendas_html():
+    try:
+        conn = get_conexao()
+        cur = conn.cursor()
+        cur.execute("SELECT id, data_hora, total, forma_pagamento, usuario_id FROM vendas ORDER BY data_hora DESC")
+        vendas = cur.fetchall()
+        cur.close()
+        conn.close()
+        return render_template("vendas.html", vendas=vendas)
+    except Exception as e:
+        return f"<h3>Erro ao carregar vendas: {e}</h3>", 500
 
 
 if __name__ == '__main__':

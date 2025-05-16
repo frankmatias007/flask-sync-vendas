@@ -1,37 +1,71 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Vendas</title>
+    <title>Relatório de Vendas</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }
-        table { border-collapse: collapse; width: 100%; background-color: #fff; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        th { background-color: #333; color: white; }
-        tr:nth-child(even) { background-color: #f2f2f2; }
-        h2 { text-align: center; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            margin: auto;
+            width: 95%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #333;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #666;
+        }
     </style>
 </head>
 <body>
-    <h2>Vendas Sincronizadas</h2>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Data/Hora</th>
-            <th>Total (R$)</th>
-            <th>Forma de Pagamento</th>
-            <th>Usuário ID</th>
-        </tr>
-        {% for v in vendas %}
-        <tr>
-            <td>{{ v[0] }}</td>
-            <td>{{ v[1] }}</td>
-            <td>{{ "%.2f"|format(v[2]) }}</td>
-            <td>{{ v[3] }}</td>
-            <td>{{ v[4] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+<h2>Relatório de Vendas Sincronizadas</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Data/Hora</th>
+        <th>Total (R$)</th>
+        <th>Forma de Pagamento</th>
+        <th>Usuário</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for v in vendas %}
+    <tr>
+        <td>{{ v[0] }}</td>
+        <td>{{ v[1].strftime('%d/%m/%Y %H:%M:%S') }}</td>
+        <td>{{ "%.2f"|format(v[2]) }}</td>
+        <td>{{ v[3] }}</td>
+        <td>{{ v[4] }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="footer">
+    <p>Sistema FrankSistemas - Dados atualizados automaticamente</p>
+</div>
 </body>
 </html>
