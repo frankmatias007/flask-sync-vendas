@@ -129,7 +129,7 @@ def listar_vendas():
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
 
 
-@app.route('/vendas')
+@app.route('/api/vendas')
 def visualizar_vendas_html():
     try:
         conn = get_conexao()
