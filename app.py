@@ -1,11 +1,24 @@
-import os
+import os  # ← Faltando
 from datetime import datetime
 
 import psycopg2
 import unicodedata
+from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 
+load_dotenv()
+
 app = Flask(__name__)
+
+
+# def get_conexao():
+#   return psycopg2.connect(
+#      dbname="loja_acessorios",
+#     user="postgres",
+#    password="sua_senha_aqui",  # ← substitua pela sua senha real
+#   host="localhost",
+#  port="5432"
+# )
 
 
 def get_conexao():
@@ -57,13 +70,17 @@ def sincronizar_venda():
 
 def limpar_valor(valor):
     try:
+        # Se for bytes, tenta várias decodificações
         if isinstance(valor, bytes):
-            try:
-                valor = valor.decode('utf-8')
-            except UnicodeDecodeError:
-                valor = valor.decode('latin-1')
+            for encoding in ['utf-8', 'latin-1', 'windows-1252']:
+                try:
+                    valor = valor.decode(encoding)
+                    break
+                except UnicodeDecodeError:
+                    continue
 
         if isinstance(valor, str):
+            # Remove acentos
             valor = ''.join(
                 c for c in unicodedata.normalize('NFKD', valor)
                 if not unicodedata.combining(c)
@@ -72,7 +89,7 @@ def limpar_valor(valor):
         return valor
     except Exception as e:
         print(f"❌ Erro ao limpar valor: {valor} → {e}")
-        return None
+        return str(valor)  # força conversão bruta
 
 
 @app.route('/vendas', methods=['GET'])
