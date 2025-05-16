@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de Vendas</title>
+</head>
+<body>
+<h2>Relatório de Vendas</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Data/Hora</th>
+        <th>Total</th>
+        <th>Forma de Pagamento</th>
+        <th>Usuário</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for v in vendas %}
+    <tr>
+        <td>{{ v[0] }}</td>
+        <td>{{ v[1].strftime('%d/%m/%Y %H:%M:%S') }}</td>
+        <td>R$ {{ "%.2f"|format(v[2]) }}</td>
+        <td>{{ v[3] }}</td>
+        <td>{{ v[4] }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>
