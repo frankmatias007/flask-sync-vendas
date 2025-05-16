@@ -3,9 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <title>Relatório de Vendas</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 40px;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            max-width: 1000px;
+            margin: auto;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1565c0;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #1976d2;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .exportar-btn {
+            background-color: #1976d2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .exportar-btn:hover {
+            background-color: #145ca3;
+        }
+    </style>
 </head>
 <body>
-<h2>Relatório de Vendas</h2>
-<p>Relatório funcionando com sucesso.</p>
+<div class="container" id="relatorio">
+    <h2>Relatório de Vendas</h2>
+    <button class="exportar-btn" onclick="gerarPDF()">Exportar para PDF</button>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Data/Hora</th>
+            <th>Total (R$)</th>
+            <th>Forma de Pagamento</th>
+            <th>Usuário</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for v in vendas %}
+        <tr>
+            <td>{{ v[0] }}</td>
+            <td>{{ v[1].strftime('%d/%m/%Y %H:%M:%S') }}</td>
+            <td>{{ "%.2f"|format(v[2]|float) }}</td>
+            <td>{{ v[3] }}</td>
+            <td>{{ v[4] }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function gerarPDF() {
+        const elemento = document.getElementById('relatorio');
+        const opcoes = {
+            margin: 0.5,
+            filename: 'relatorio_vendas.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opcoes).from(elemento).save();
+    }
+</script>
 </body>
 </html>
