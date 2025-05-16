@@ -129,7 +129,7 @@ def listar_vendas():
         return jsonify({"status": "erro", "mensagem": str(e)}), 500
 
 
-@app.route('/api/vendas')
+@app.route('/vendas')
 def visualizar_vendas_html():
     try:
         conn = get_conexao()
@@ -138,7 +138,7 @@ def visualizar_vendas_html():
         vendas = cur.fetchall()
         cur.close()
         conn.close()
-        return render_template("vendas.html", vendas=vendas)
+        return render_template("vendas.html", vendas=vendas, now=datetime.utcnow)
     except Exception as e:
         return f"<h3>Erro ao carregar vendas: {e}</h3>", 500
 
