@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Vendas Sincronizadas</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f2f2f2; margin: 0; padding: 20px; }
+        h2 { text-align: center; }
+        table { width: 90%; margin: auto; border-collapse: collapse; background: white; }
+        th, td { padding: 10px; border: 1px solid #ccc; text-align: center; }
+        th { background-color: #333; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h2>Vendas Sincronizadas</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Data/Hora</th>
+            <th>Total (R$)</th>
+            <th>Forma de Pagamento</th>
+            <th>Usuário ID</th>
+        </tr>
+        {% for v in vendas %}
+        <tr>
+            <td>{{ v[0] }}</td>
+            <td>{{ v[1] }}</td>
+            <td>{{ "%.2f"|format(v[2]) }}</td>
+            <td>{{ v[3] }}</td>
+            <td>{{ v[4] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
